@@ -1,101 +1,101 @@
-# Team Alignment Specification
+# 团队对齐协议
 
-## Overview
+## 概述
 
-This document defines how team members (human and AI agents) coordinate, deliver, and align on work within the multi-agent project.
+本文档定义了团队成员（人类和 AI Agent）如何在 multi-agent 项目中协调、交付和对齐工作。
 
-## 1. Output Delivery to GitHub
+## 1. 输出交付到 GitHub
 
-**Rule: If it's not in the repo, it doesn't exist.**
+**规则：如果不在仓库里，就不存在。**
 
-- All deliverables — code, docs, configs, specs — must be committed to GitHub.
-- Issue comments are for coordination, status updates, and discussion only.
-- Agents commit to their workspace branch (`agent/agent/<hash>`) and open a PR to `main`.
-- Humans commit to feature branches (`feature/<description>`) and open a PR to `main`.
-- Do not leave artifacts only in Multica run logs or issue attachments.
+- 所有交付物——代码、文档、配置、规范——必须提交到 GitHub。
+- Issue 评论仅用于协调、状态更新和讨论。
+- Agent 提交到其工作区分支（`agent/agent/<hash>`），然后创建 PR 到 `main`。
+- 人类提交到功能分支（`feature/<描述>`），然后创建 PR 到 `main`。
+- 不要将交付物仅留在 Multica 运行日志或 issue 附件中。
 
-### What Counts as Output
+### 输出物清单
 
-| Type | Deliverable | Location |
-|------|-------------|----------|
-| Code | Source files, tests, configs | `src/`, `tests/`, etc. |
-| Docs | Specs, guides, decisions | `docs/` or repo root |
-| Config | Build, lint, CI, Docker | Repo root or `.github/` |
-| Design | Architecture diagrams, RFCs | `docs/design/` |
-| Data | Migration scripts, fixtures | `migrations/`, `fixtures/` |
+| 类型 | 交付物 | 位置 |
+|------|--------|------|
+| 代码 | 源文件、测试、配置 | `src/`、`tests/` 等 |
+| 文档 | 规范、指南、决策 | `docs/` 或仓库根目录 |
+| 配置 | 构建、lint、CI、Docker | 仓库根目录或 `.github/` |
+| 设计 | 架构图、RFC | `docs/design/` |
+| 数据 | 迁移脚本、fixtures | `migrations/`、`fixtures/` |
 
-## 2. Upstream/Downstream Alignment
+## 2. 上游/下游对齐
 
-### Upstream (Dependencies You Consume)
+### 上游（你依赖的）
 
-Before starting work:
+开始工作前：
 
-1. **Identify dependencies**: What APIs, services, or specs do you depend on?
-2. **Verify availability**: Are upstream interfaces stable and documented?
-3. **Pin versions**: Never depend on `main` or `latest` without a pin.
-4. **Contract-first**: Define the interface you expect. If it doesn't exist, create an RFC first.
+1. **识别依赖**：你依赖哪些 API、服务或规范？
+2. **验证可用性**：上游接口是否稳定且有文档？
+3. **锁定版本**：不要在没有锁定的情况下依赖 `main` 或 `latest`。
+4. **契约优先**：定义你期望的接口。如果不存在，先创建 RFC。
 
-### Downstream (Consumers of Your Work)
+### 下游（你的消费者）
 
-Before delivering:
+交付前：
 
-1. **Document the interface**: What does a consumer need to know to use your output?
-2. **Backward compatibility**: Breaking changes require a migration path and version bump.
-3. **Notify consumers**: Update downstream docs or open issues in dependent projects.
-4. **Smoke test**: Verify your output works in the integration context, not just isolation.
+1. **文档化接口**：消费者需要知道什么才能使用你的输出？
+2. **向后兼容**：破坏性变更需要迁移路径和版本号升级。
+3. **通知消费者**：更新下游文档或在依赖项目中打开 issue。
+4. **冒烟测试**：在集成环境中验证你的输出，而不仅仅是在隔离环境中。
 
-### Cross-Team Synchronization
+### 跨团队同步
 
-| Scenario | Alignment Mechanism |
-|----------|-------------------|
-| Shared API | API contract in `docs/api/`, versioned. Changes need consensus. |
-| Shared data model | Schema in `docs/schema/`. Breaking changes require migration plan. |
-| Feature dependency | Blocker issues linked; upstream marks `done` before downstream starts. |
-| Cross-team PR | Both team leads approve before merge. |
+| 场景 | 对齐机制 |
+|------|---------|
+| 共享 API | API 契约在 `docs/api/` 中，版本化。变更需要共识。 |
+| 共享数据模型 | Schema 在 `docs/schema/` 中。破坏性变更需要迁移计划。 |
+| 功能依赖 | 阻塞 issue 已关联；上游标记 `done` 后下游才开始。 |
+| 跨团队 PR | 合并前需要双方团队 leader 批准。 |
 
-## 3. Communication Protocol
+## 3. 沟通协议
 
-### Issue Comments
+### Issue 评论
 
-- Use issue comments for: status updates, blockers, questions, handoffs.
-- Use `mention://agent/...` links sparingly — they trigger another agent run. Only mention when you need them to take action.
-- End comments with a clear state: what's done, what's blocked, what's next.
+- 使用 issue 评论进行：状态更新、阻塞项、问题、交接。
+- 谨慎使用 `mention://agent/...` 链接——会触发另一次 Agent 运行。仅在你需要他们采取行动时才提及。
+- 评论结尾要有明确的状态：完成了什么、什么被阻塞、下一步是什么。
 
-### Agent Handoffs
+### Agent 交接
 
-When passing work between agents:
+在 Agent 之间传递工作时：
 
-1. **Commit your output** to your workspace branch.
-2. **Comment on the issue** with what you delivered and where to find it.
-3. **Mention the next agent** only if they need to take over.
-4. **Update the issue status** appropriately.
+1. **将输出提交**到你的工作区分支。
+2. **在 issue 上评论**你交付了什么以及在哪里可以找到。
+3. **仅在下个 Agent 需要接管时才提及**。
+4. **适当更新 issue 状态**。
 
-### Human Handoffs
+### 人类交接
 
-When passing work to a human:
+在将工作传递给人类时：
 
-1. **PR is ready** with clear description.
-2. **Comment on the issue** with a summary of what changed and why.
-3. **No `@mention` needed** — the human subscribed to the issue will see it.
+1. **PR 已准备好**，有清晰的描述。
+2. **在 issue 上评论**变更摘要和原因。
+3. **不需要 `@提及`**——订阅了 issue 的人类会看到。
 
-## 4. Quality Gates
+## 4. 质量门禁
 
-Every deliverable must pass:
+每个交付物必须通过：
 
-| Gate | Criteria |
-|------|----------|
-| **Completeness** | Addresses the issue description fully. |
-| **Correctness** | Works as described, edge cases handled. |
-| **Reviewability** | PR is focused, small, and self-contained. |
-| **Maintainability** | Follows coding standards, documented where non-obvious. |
-| **Testability** | Covered by tests or test plan provided. |
+| 门禁 | 标准 |
+|------|------|
+| **完整性** | 充分响应 issue 描述。 |
+| **正确性** | 按预期工作，边界情况已处理。 |
+| **可审查性** | PR 聚焦、精简、自包含。 |
+| **可维护性** | 遵循代码规范，在非显而易出处有文档说明。 |
+| **可测试性** | 有测试覆盖或提供了测试计划。 |
 
-## 5. Definition of Done
+## 5. 完成的定义 (Definition of Done)
 
-A task is **done** when:
+任务标记为**完成**的条件：
 
-- [ ] Code/docs are committed to a branch.
-- [ ] PR is merged to `main`.
-- [ ] Tests pass (existing + new).
-- [ ] Issue status is updated to `done`.
-- [ ] Downstream consumers are notified if applicable.
+- [ ] 代码/文档已提交到分支。
+- [ ] PR 已合并到 `main`。
+- [ ] 测试通过（现有的 + 新增的）。
+- [ ] Issue 状态已更新为 `done`。
+- [ ] 下游消费者已被通知（如适用）。

@@ -1,52 +1,64 @@
-# Coding Standards
+# 代码规范
 
-## General Principles
+## 通用原则
 
-- **Simplicity first**: Prefer readable, straightforward code over clever solutions.
-- **No dead code**: Remove unused imports, functions, and files. Don't comment out — delete.
-- **One responsibility per function/class**: If it does two things, split it.
-- **Fail fast, fail loud**: Validate inputs at boundaries. Let internal code trust its callers.
+- **简洁优先**：偏好清晰直接的代码，而非炫技的方案。
+- **无死代码**：删除未使用的导入、函数和文件。不要注释掉——直接删除。
+- **单一职责**：一个函数/类只做一件事。如果承担了两个职责，就拆分它。
+- **快速失败、大声失败**：在边界处验证输入。内部代码可以信任其调用者。
 
-## Language-Specific Standards
+## 语言特定规范
 
-When a language is chosen for a component, add a `<language>_STANDARDS.md` file covering:
+当某个组件选择了特定语言后，需添加 `<语言>_STANDARDS.md` 文件，覆盖：
 
-- Linter/formatter configuration (commit config files to repo)
-- Dependency management (lock files committed, no unpinned deps)
-- Testing framework and conventions
-- Error handling patterns
-- Logging conventions
+- Linter/格式化器配置（配置文件需提交到仓库）
+- 依赖管理（提交锁文件，禁止不锁定版本的依赖）
+- 测试框架和约定
+- 错误处理模式
+- 日志约定
 
-## Code Review Checklist
+## 代码审查清单
 
-Every PR should be checked against:
+每个 PR 都应检查以下项：
 
-- [ ] **Correctness**: Does it do what the issue describes?
-- [ ] **Security**: No hardcoded secrets, SQL injection, XSS, path traversal.
-- [ ] **Error handling**: Errors are caught and surfaced meaningfully.
-- [ ] **Tests**: New logic is covered by tests.
-- [ ] **Readability**: A new team member can understand the code in 5 minutes.
-- [ ] **No regressions**: Existing tests pass; no unrelated changes.
+- [ ] **正确性**：是否实现了 issue 描述的内容？
+- [ ] **安全性**：无硬编码密钥、无 SQL 注入、无 XSS、无路径遍历漏洞。
+- [ ] **错误处理**：错误被捕获并以有意义的方式呈现。
+- [ ] **测试**：新逻辑有测试覆盖。
+- [ ] **可读性**：新团队成员能在 5 分钟内理解代码。
+- [ ] **无回归**：现有测试通过；无无关变更。
 
-## Test Requirements
+## 测试要求
 
-- **Unit tests**: Required for all business logic.
-- **Integration tests**: Required for anything touching external systems (DB, API, filesystem).
-- **No skipped tests**: A skipped test is a bug waiting to be filed.
-- Tests must be deterministic — no flakes.
+- **单元测试**：所有业务逻辑必须有。
+- **集成测试**：涉及外部系统（数据库、API、文件系统）的代码必须有。
+- **禁止跳过测试**：被跳过的测试是等待爆发的 bug。
+- 测试必须是确定性的——不能有随机失败。
 
-## Security
+## 安全
 
-- **Secrets**: Never commit `.env`, credentials, tokens, or keys. Use environment variables or a secret manager.
-- **Dependencies**: Pin versions. Audit for known CVEs before adding new dependencies.
-- **Input validation**: Validate at all system boundaries (API endpoints, CLI args, file reads).
-- **Principle of least privilege**: Services and agents run with minimal permissions.
+- **密钥**：禁止提交 `.env`、凭证、token 或密钥。使用环境变量或密钥管理器。
+- **依赖**：锁定版本。添加新依赖前审计已知 CVE。
+- **输入验证**：在所有系统边界处验证（API 端点、CLI 参数、文件读取）。
+- **最小权限原则**：服务和 Agent 以最小权限运行。
 
-## Agent-Specific Rules
+## Agent 专属规则
 
-For AI agents working in this repo:
+对于在本仓库工作的 AI Agent：
 
-- **Commit often**: Each meaningful step gets its own commit.
-- **No silent changes**: Any behavioral change must have a PR description.
-- **Respect the stack**: If the project uses a language/framework, match existing patterns. Don't introduce new ones without justification.
-- **Clean worktrees**: Don't leave debug files, temp files, or `.DS_Store` in the repo.
+- **频繁提交**：每个有意义的步骤都应单独提交。
+- **变更不可静默**：任何行为变更都必须在 PR 描述中说明。
+- **尊重现有代码风格**：如果项目使用了某个语言/框架，遵循现有模式。没有充分理由不要引入新框架。
+- **清理工作区**：不要在仓库中遗留调试文件、临时文件或 `.DS_Store`。
+
+## 代码质量门禁
+
+每个交付物必须通过以下质量门禁：
+
+| 门禁 | 标准 |
+|------|------|
+| **完整性** | 充分响应 issue 描述。 |
+| **正确性** | 按预期工作，边界情况已处理。 |
+| **可审查性** | PR 聚焦、精简、自包含。 |
+| **可维护性** | 遵循代码规范，在非显而易出处有文档说明。 |
+| **可测试性** | 有测试覆盖或提供了测试计划。 |
